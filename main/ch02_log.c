@@ -6,7 +6,7 @@
 #include "esp_log.h"
 
 
-static const char* TAG = "ch02_log"
+static const char* TAG = "ch02_log";
 
 void app_main(void)
 {
@@ -15,14 +15,12 @@ void app_main(void)
     /* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);
-    ESP_LOGI(TAG, "This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
+    ESP_LOGI(TAG, "This is ESP32 chip with %d CPU cores, WiFi%s%s, silicon revision %d, %dMB %s flash.",
             chip_info.cores,
             (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
-            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
-
-    ESP_LOGI(TAG, "silicon revision %d, ", chip_info.revision);
-
-    ESP_LOGI(TAG, "%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "",
+            chip_info.revision,
+            spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
     /* ESP_LOGx testing */
@@ -39,7 +37,7 @@ void app_main(void)
         // error level
         ESP_LOGD(TAG, "debug log");
 
-        // verbose
+        // verbose level
         ESP_LOGV(TAG, "verbose log");
 
         // delay 10s
