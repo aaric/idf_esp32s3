@@ -9,5 +9,9 @@
         "target/esp32s3.cfg"
     ],
     "idf.pythonBinPathWin": "D:/Espressif/python_env/idf4.4_py3.8_env/Scripts/python.exe",
-    "idf.toolsPathWin": "D:\\Espressif"
+    "idf.toolsPathWin": "D:\\Espressif",
+    "files.associations": {
+        "esp_log.h": "c"
+    },
+    "idf.portWin": "COM5"
 }
