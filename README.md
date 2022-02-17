@@ -27,7 +27,7 @@ idf.py clean
 
 ## 2 Log
 
-> *[SDKCONFIG - Log Level](./sdkconfig)*  
+> *[SDKCONFIG - Log Level](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/system/log.html)*  
 > *- INFO  -> `CONFIG_LOG_DEFAULT_LEVEL_INFO=y` Default*  
 > *- DEBUG -> `CONFIG_LOG_DEFAULT_LEVEL_DEBUG=y` Now*
 

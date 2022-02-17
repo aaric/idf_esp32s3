@@ -1,4 +1,4 @@
 idf_component_register(
-    SRCS "ch02_log.c"
+    SRCS "ch03_led.c"
     INCLUDE_DIRS ""
 )

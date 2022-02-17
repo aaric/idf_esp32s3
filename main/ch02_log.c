@@ -10,7 +10,7 @@ static const char* TAG = "ch02_log";
 
 void app_main(void)
 {
-    printf("Hello world!\n");
+    ESP_LOGI(TAG, "Hello world!");
 
     /* Print chip information */
     esp_chip_info_t chip_info;
