@@ -12,6 +12,9 @@
 ## 1 Command
 
 ```powershell
+# Set target
+idf.py set-target esp32s3
+
 # Build project
 idf.py build
 
@@ -20,9 +23,6 @@ idf.py -p (PORT) flash
 
 # Monitor device
 idf.py -p (PORT) monitor
-
-# Full clean
-idf.py clean
 ```
 
 ## 2 Log
