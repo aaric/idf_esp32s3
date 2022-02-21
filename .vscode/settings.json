@@ -12,7 +12,10 @@
     "idf.toolsPathWin": "D:\\Espressif",
     "files.associations": {
         "esp_log.h": "c",
-        "*.inc": "c"
+        "*.inc": "c",
+        "gpio.h": "c",
+        "led_strip.h": "c",
+        "sdkconfig.h": "c"
     },
     "idf.portWin": "COM5"
 }
