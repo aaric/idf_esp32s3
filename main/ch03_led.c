@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "sdkconfig.h"
 #include "esp_log.h"
+#include "led_strip.h"
 #include "driver/gpio.h"
 #include "driver/rmt.h"
-#include "sdkconfig.h"
 
 #define BLINK_GPIO 48
 
