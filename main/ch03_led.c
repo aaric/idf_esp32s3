@@ -3,18 +3,22 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "driver/gpio.h"
+#include "driver/rmt.h"
 #include "sdkconfig.h"
 
 #define BLINK_GPIO 48
 
 static const char *TAG = "ch03_led";
 
+static uint8_t led_state = 0;
+static led_strip_t *p_strip_p48;
+
 void app_main(void)
 {
     ESP_LOGI(TAG, "Hello led!");
 
-    gpio_reset_pin(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+    // gpio_reset_pin(BLINK_GPIO);
+    // gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
     while (1)
     {

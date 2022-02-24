@@ -15,7 +15,8 @@
         "*.inc": "c",
         "gpio.h": "c",
         "led_strip.h": "c",
-        "sdkconfig.h": "c"
+        "sdkconfig.h": "c",
+        "rmt.h": "c"
     },
     "idf.portWin": "COM5"
 }
