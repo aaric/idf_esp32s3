@@ -18,8 +18,8 @@ void app_main(void)
 {
     ESP_LOGI(TAG, "Hello led!");
 
-    // gpio_reset_pin(BLINK_GPIO);
-    // gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+    gpio_reset_pin(BLINK_GPIO);
+    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
     while (1)
     {
