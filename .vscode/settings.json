@@ -16,7 +16,16 @@
         "gpio.h": "c",
         "led_strip.h": "c",
         "sdkconfig.h": "c",
-        "rmt.h": "c"
+        "rmt.h": "c",
+        "*.ipp": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "system_error": "c"
     },
     "idf.portWin": "COM5"
 }
