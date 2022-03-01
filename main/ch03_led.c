@@ -15,14 +15,7 @@ static const char *TAG = "ch03_led";
 // static uint8_t led_state = 0;
 static led_strip_t *p_strip_led;
 
-void app_main(void)
-{
-    ESP_LOGI(TAG, "Hello led!");
-
-    // gpio_reset_pin(LED_RGB_GPIO);
-    // gpio_set_direction(LED_RGB_GPIO, GPIO_MODE_OUTPUT);
-
-    // led_strip_init
+static void led_rmt_init() {
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(LED_RGB_GPIO, LED_RMT_CHANNEL);
     config.clk_div = 2;
 
@@ -40,6 +33,21 @@ void app_main(void)
     ESP_ERROR_CHECK(p_strip_led->clear(p_strip_led, 100));
 
     ESP_LOGI(TAG, "--- init ok ---");
+}
+
+void app_main(void)
+{
+    ESP_LOGI(TAG, "Hello led!");
+
+    // gpio_reset_pin(LED_RGB_GPIO);
+    // gpio_set_direction(LED_RGB_GPIO, GPIO_MODE_OUTPUT);
+
+    led_rmt_init();
+
+    // p_strip_led->clear(p_strip_led, 50);
+
+    p_strip_led->set_pixel(p_strip_led, 0, 128, 0, 128);
+    p_strip_led->refresh(p_strip_led, 100);
 
     while (1)
     {
