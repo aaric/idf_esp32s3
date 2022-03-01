@@ -5,14 +5,28 @@
     "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\":\"D:\\\\Espressif\\\\tools\\\\openocd-esp32\\\\v0.11.0-esp32-20211220/openocd-esp32/share/openocd/scripts\",\"IDF_CCACHE_ENABLE\":\"1\"}",
     "idf.espIdfPathWin": "D:/Espressif/frameworks/esp-idf-v4.4/",
     "idf.openOcdConfigs": [
-        "interface/ftdi/esp32_devkitj_v1.cfg",
-        "target/esp32s3.cfg"
+        "board/esp32s3-builtin.cfg"
     ],
     "idf.pythonBinPathWin": "D:/Espressif/python_env/idf4.4_py3.8_env/Scripts/python.exe",
     "idf.toolsPathWin": "D:\\Espressif",
     "files.associations": {
         "esp_log.h": "c",
-        "*.inc": "c"
+        "*.inc": "c",
+        "gpio.h": "c",
+        "led_strip.h": "c",
+        "sdkconfig.h": "c",
+        "rmt.h": "c",
+        "*.ipp": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "system_error": "c",
+        "bitset": "c",
+        "set": "c"
     },
     "idf.portWin": "COM5"
 }
