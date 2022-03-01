@@ -12,10 +12,11 @@
 
 static const char *TAG = "ch03_led";
 
-// static uint8_t led_state = 0;
+static uint8_t led_state = 0;
 static led_strip_t *p_strip_led;
 
-static void led_rmt_init() {
+static void led_rmt_init()
+{
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(LED_RGB_GPIO, LED_RMT_CHANNEL);
     config.clk_div = 2;
 
@@ -35,6 +36,21 @@ static void led_rmt_init() {
     ESP_LOGI(TAG, "--- init ok ---");
 }
 
+static void set_pixel_purple()
+{
+    if (0 == led_state)
+    {
+        ESP_LOGD(TAG, "rgb led on");
+        p_strip_led->set_pixel(p_strip_led, 0, 128, 0, 128);
+        p_strip_led->refresh(p_strip_led, 100);
+    }
+    else
+    {
+        ESP_LOGD(TAG, "rgb led off");
+        p_strip_led->clear(p_strip_led, 50);
+    }
+}
+
 void app_main(void)
 {
     ESP_LOGI(TAG, "Hello led!");
@@ -44,21 +60,13 @@ void app_main(void)
 
     led_rmt_init();
 
-    // p_strip_led->clear(p_strip_led, 50);
-
-    p_strip_led->set_pixel(p_strip_led, 0, 128, 0, 128);
-    p_strip_led->refresh(p_strip_led, 100);
-
     while (1)
     {
-        // close
-        ESP_LOGD(TAG, "gpio-48 off");
-        gpio_set_level(LED_RGB_GPIO, 0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        // led
+        led_state = !led_state;
+        set_pixel_purple();
 
-        // open
-        gpio_set_level(LED_RGB_GPIO, 1);
-        ESP_LOGD(TAG, "gpio-48 on");
+        // delay 1s
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }

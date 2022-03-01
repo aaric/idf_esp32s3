@@ -24,7 +24,9 @@
         "unordered_map": "c",
         "unordered_set": "c",
         "vector": "c",
-        "system_error": "c"
+        "system_error": "c",
+        "bitset": "c",
+        "set": "c"
     },
     "idf.portWin": "COM5"
 }
