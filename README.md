@@ -39,7 +39,7 @@ idf.py -p (PORT) monitor
 |4|`ESP_LOGD`|*debug*|
 |5|`ESP_LOGV`|*verbose (highest)*|
 
-## 3 LED
+## 3 GPIO
 
 > *[GPIO & RTC GPIO](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/peripherals/gpio.html)*  
 > *[Remote Control (RMT)](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/peripherals/rmt.html)*
