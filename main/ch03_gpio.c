@@ -7,10 +7,10 @@
 #include "driver/rmt.h"
 #include "led_strip.h"
 
-#define LED_RGB_GPIO 48
+#define LED_RGB_GPIO GPIO_NUM_48
 #define LED_RMT_CHANNEL RMT_CHANNEL_0
 
-static const char *TAG = "ch03_led";
+static const char *TAG = "ch03_gpio";
 
 static uint8_t led_state = 0;
 static led_strip_t *p_strip_led;
@@ -53,7 +53,7 @@ static void set_pixel_purple()
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "Hello led!");
+    ESP_LOGI(TAG, "hello gpio!");
 
     // gpio_reset_pin(LED_RGB_GPIO);
     // gpio_set_direction(LED_RGB_GPIO, GPIO_MODE_OUTPUT);
