@@ -48,7 +48,7 @@ static void led_set_pixel()
     if (0 == led_state)
     {
         ESP_LOGD(TAG, "rgb led on");
-        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 128);
+        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 0);
         led_strip_ptr->refresh(led_strip_ptr, 100);
     }
     else
@@ -78,19 +78,15 @@ static void IRAM_ATTR gpio_isr_handler(void *arg)
     xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
 }
 
-void app_main(void)
+static void gpio_intr_init()
 {
-    ESP_LOGI(TAG, "hello gpio!");
+    gpio_config_t config;
+    config.intr_type = GPIO_INTR_NEGEDGE;
+    config.mode = GPIO_MODE_INPUT;
+    config.pin_bit_mask = GPIO_INTR_PIN_SEL;
+    config.pull_up_en = 1;
 
-    led_rmt_init();
-
-    gpio_config_t gpio_conf;
-    gpio_conf.intr_type = GPIO_INTR_NEGEDGE;
-    gpio_conf.mode = GPIO_MODE_INPUT;
-    gpio_conf.pin_bit_mask = GPIO_INTR_PIN_SEL;
-    gpio_conf.pull_up_en = 1;
-
-    gpio_config(&gpio_conf);
+    gpio_config(&config);
     gpio_set_intr_type(GPIO_INTR_BTN_BOOT, GPIO_INTR_POSEDGE);
 
     gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
@@ -99,6 +95,15 @@ void app_main(void)
 
     gpio_install_isr_service(GPIO_INTR_FLAG_DEFAULT);
     gpio_isr_handler_add(GPIO_INTR_BTN_BOOT, gpio_isr_handler, (void *)GPIO_INTR_BTN_BOOT);
+}
+
+void app_main(void)
+{
+    ESP_LOGI(TAG, "hello gpio!");
+
+    led_rmt_init();
+
+    gpio_intr_init();
 
     while (1)
     {
