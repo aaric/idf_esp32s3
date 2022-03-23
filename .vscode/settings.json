@@ -27,7 +27,8 @@
         "vector": "c",
         "system_error": "c",
         "bitset": "c",
-        "set": "c"
+        "set": "c",
+        "complex": "c"
     },
     "idf.portWin": "COM5"
 }

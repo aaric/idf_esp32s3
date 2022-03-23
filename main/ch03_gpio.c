@@ -10,9 +10,9 @@
 #define LED_GPIO_RGB GPIO_NUM_48
 #define LED_RMT_CHANNEL RMT_CHANNEL_0
 
-#define BUTTON_BOOT_GPIO GPIO_NUM_0
-#define GPIO_INPUT_PIN_SEL 1ULL << BUTTON_BOOT_GPIO
-#define ESP_INTR_FLAG_DEFAULT 0
+#define GPIO_INTR_BTN_BOOT GPIO_NUM_0
+#define GPIO_INTR_PIN_SEL 1ULL << GPIO_INTR_BTN_BOOT
+#define GPIO_INTR_FLAG_DEFAULT 0
 
 static const char *TAG = "ch03_gpio";
 
@@ -60,13 +60,7 @@ static void led_set_pixel()
 
 static xQueueHandle gpio_evt_queue = NULL;
 
-static void IRAM_ATTR gpio_isr_handler(void *arg)
-{
-    uint32_t gpio_num = (uint32_t)arg;
-    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
-}
-
-static void gpio_task_example(void *arg)
+static void gpio_intr_task(void *arg)
 {
     uint32_t io_num;
     for (;;)
@@ -78,6 +72,12 @@ static void gpio_task_example(void *arg)
     }
 }
 
+static void IRAM_ATTR gpio_isr_handler(void *arg)
+{
+    uint32_t gpio_num = (uint32_t)arg;
+    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
+}
+
 void app_main(void)
 {
     ESP_LOGI(TAG, "hello gpio!");
@@ -87,18 +87,18 @@ void app_main(void)
     gpio_config_t gpio_conf;
     gpio_conf.intr_type = GPIO_INTR_NEGEDGE;
     gpio_conf.mode = GPIO_MODE_INPUT;
-    gpio_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
+    gpio_conf.pin_bit_mask = GPIO_INTR_PIN_SEL;
     gpio_conf.pull_up_en = 1;
 
     gpio_config(&gpio_conf);
-    gpio_set_intr_type(BUTTON_BOOT_GPIO, GPIO_INTR_POSEDGE);
+    gpio_set_intr_type(GPIO_INTR_BTN_BOOT, GPIO_INTR_POSEDGE);
 
     gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
 
-    xTaskCreate(gpio_task_example, "gpio_task_example", 2048, NULL, 10, NULL);
+    xTaskCreate(gpio_intr_task, "gpio_intr_task", 2048, NULL, 10, NULL);
 
-    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-    gpio_isr_handler_add(BUTTON_BOOT_GPIO, gpio_isr_handler, (void *)BUTTON_BOOT_GPIO);
+    gpio_install_isr_service(GPIO_INTR_FLAG_DEFAULT);
+    gpio_isr_handler_add(GPIO_INTR_BTN_BOOT, gpio_isr_handler, (void *)GPIO_INTR_BTN_BOOT);
 
     while (1)
     {
