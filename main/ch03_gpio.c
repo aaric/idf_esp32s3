@@ -17,7 +17,7 @@
 static const char *TAG = "ch03_gpio";
 
 static uint8_t led_state = 0;
-static led_strip_t *p_strip_led;
+static led_strip_t *led_strip_ptr;
 
 static xQueueHandle gpio_evt_queue = NULL;
 
@@ -48,14 +48,14 @@ static void led_rmt_init()
     ESP_ERROR_CHECK(rmt_driver_install(config.channel, 0, 0));
 
     led_strip_config_t strip_config = LED_STRIP_DEFAULT_CONFIG(1, (led_strip_dev_t)config.channel);
-    p_strip_led = led_strip_new_rmt_ws2812(&strip_config);
+    led_strip_ptr = led_strip_new_rmt_ws2812(&strip_config);
 
-    if (!p_strip_led)
+    if (!led_strip_ptr)
     {
         ESP_LOGE(TAG, "-- init ws2812 error ---");
     }
 
-    ESP_ERROR_CHECK(p_strip_led->clear(p_strip_led, 100));
+    ESP_ERROR_CHECK(led_strip_ptr->clear(led_strip_ptr, 100));
 
     ESP_LOGI(TAG, "--- init ok ---");
 }
@@ -65,13 +65,13 @@ static void set_pixel_purple()
     if (0 == led_state)
     {
         ESP_LOGD(TAG, "rgb led on");
-        p_strip_led->set_pixel(p_strip_led, 0, 128, 0, 128);
-        p_strip_led->refresh(p_strip_led, 100);
+        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 128);
+        led_strip_ptr->refresh(led_strip_ptr, 100);
     }
     else
     {
         ESP_LOGD(TAG, "rgb led off");
-        p_strip_led->clear(p_strip_led, 50);
+        led_strip_ptr->clear(led_strip_ptr, 50);
     }
 }
 
