@@ -43,12 +43,48 @@ static void led_rmt_init()
     ESP_LOGI(TAG, "--- init ok ---");
 }
 
+static int led_idx = 0;
+
 static void led_set_pixel()
 {
     if (0 == led_state)
     {
         ESP_LOGD(TAG, "rgb led on");
-        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 0);
+
+        switch (led_idx)
+        {
+        case 0:
+            // red
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 0);
+            break;
+        case 1:
+            // green
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 0, 128, 0);
+            break;
+        case 2:
+            // blue
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 0, 0, 128);
+            break;
+        case 3:
+            // yellow
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 128, 0);
+            break;
+        case 4:
+            // purple
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 128);
+            break;
+        case 5:
+            // cyan
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 0, 128, 128);
+            break;
+        case 6:
+            // white
+            led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 128, 128);
+            break;
+        default:
+            break;
+        }
+
         led_strip_ptr->refresh(led_strip_ptr, 100);
     }
     else
@@ -63,11 +99,15 @@ static xQueueHandle gpio_evt_queue = NULL;
 static void gpio_intr_task(void *arg)
 {
     uint32_t io_num;
-    for (;;)
+
+    while (true)
     {
         if (xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY))
         {
-            ESP_LOGE(TAG, "GPIO[%d] intr, val: %d\n", io_num, gpio_get_level(io_num));
+            ESP_LOGI(TAG, "GPIO[%d] intr, val: %d\n", io_num, gpio_get_level(io_num));
+
+            led_idx++;
+            led_idx %= 7;
         }
     }
 }
