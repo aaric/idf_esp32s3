@@ -19,26 +19,6 @@ static const char *TAG = "ch03_gpio";
 static uint8_t led_state = 0;
 static led_strip_t *led_strip_ptr;
 
-static xQueueHandle gpio_evt_queue = NULL;
-
-static void IRAM_ATTR gpio_isr_handler(void *arg)
-{
-    uint32_t gpio_num = (uint32_t)arg;
-    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
-}
-
-static void gpio_task_example(void *arg)
-{
-    uint32_t io_num;
-    for (;;)
-    {
-        if (xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY))
-        {
-            ESP_LOGE(TAG, "GPIO[%d] intr, val: %d\n", io_num, gpio_get_level(io_num));
-        }
-    }
-}
-
 static void led_rmt_init()
 {
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(LED_RGB_GPIO, LED_RMT_CHANNEL);
@@ -60,18 +40,38 @@ static void led_rmt_init()
     ESP_LOGI(TAG, "--- init ok ---");
 }
 
-static void set_pixel_purple()
+static void led_set_pixel()
 {
     if (0 == led_state)
     {
         ESP_LOGD(TAG, "rgb led on");
-        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 128);
+        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 0);
         led_strip_ptr->refresh(led_strip_ptr, 100);
     }
     else
     {
         ESP_LOGD(TAG, "rgb led off");
         led_strip_ptr->clear(led_strip_ptr, 50);
+    }
+}
+
+static xQueueHandle gpio_evt_queue = NULL;
+
+static void IRAM_ATTR gpio_isr_handler(void *arg)
+{
+    uint32_t gpio_num = (uint32_t)arg;
+    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
+}
+
+static void gpio_task_example(void *arg)
+{
+    uint32_t io_num;
+    for (;;)
+    {
+        if (xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY))
+        {
+            ESP_LOGE(TAG, "GPIO[%d] intr, val: %d\n", io_num, gpio_get_level(io_num));
+        }
     }
 }
 
@@ -104,7 +104,7 @@ void app_main(void)
     {
         // led
         led_state = !led_state;
-        set_pixel_purple();
+        led_set_pixel();
 
         // delay 1s
         vTaskDelay(1000 / portTICK_PERIOD_MS);
