@@ -7,7 +7,7 @@
 #include "driver/rmt.h"
 #include "led_strip.h"
 
-#define LED_RGB_GPIO GPIO_NUM_48
+#define LED_GPIO_RGB GPIO_NUM_48
 #define LED_RMT_CHANNEL RMT_CHANNEL_0
 
 #define BUTTON_BOOT_GPIO GPIO_NUM_0
@@ -21,7 +21,10 @@ static led_strip_t *led_strip_ptr;
 
 static void led_rmt_init()
 {
-    rmt_config_t config = RMT_DEFAULT_CONFIG_TX(LED_RGB_GPIO, LED_RMT_CHANNEL);
+    // gpio_reset_pin(LED_GPIO_RGB);
+    // gpio_set_direction(LED_GPIO_RGB, GPIO_MODE_OUTPUT);
+
+    rmt_config_t config = RMT_DEFAULT_CONFIG_TX(LED_GPIO_RGB, LED_RMT_CHANNEL);
     config.clk_div = 2;
 
     ESP_ERROR_CHECK(rmt_config(&config));
@@ -45,7 +48,7 @@ static void led_set_pixel()
     if (0 == led_state)
     {
         ESP_LOGD(TAG, "rgb led on");
-        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 0);
+        led_strip_ptr->set_pixel(led_strip_ptr, 0, 128, 0, 128);
         led_strip_ptr->refresh(led_strip_ptr, 100);
     }
     else
@@ -78,9 +81,6 @@ static void gpio_task_example(void *arg)
 void app_main(void)
 {
     ESP_LOGI(TAG, "hello gpio!");
-
-    // gpio_reset_pin(LED_RGB_GPIO);
-    // gpio_set_direction(LED_RGB_GPIO, GPIO_MODE_OUTPUT);
 
     led_rmt_init();
 
