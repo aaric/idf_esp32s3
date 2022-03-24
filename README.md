@@ -43,3 +43,7 @@ idf.py -p (PORT) monitor
 
 > *[GPIO & RTC GPIO](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/peripherals/gpio.html)*  
 > *[Remote Control (RMT)](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/peripherals/rmt.html)*
+
+## 4 Timer
+
+> *[High Resolution Timer](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.4/esp32s3/api-reference/system/esp_timer.html)*

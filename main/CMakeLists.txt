@@ -1,4 +1,4 @@
 idf_component_register(
-    SRCS "ch03_gpio.c"
+    SRCS "ch04_timer.c"
     INCLUDE_DIRS ""
 )
