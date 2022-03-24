@@ -10,8 +10,8 @@
 #define LED_GPIO_RGB GPIO_NUM_48
 #define LED_RMT_CHANNEL RMT_CHANNEL_0
 
-#define GPIO_INTR_BTN_BOOT GPIO_NUM_0
-#define GPIO_INTR_PIN_SEL 1ULL << GPIO_INTR_BTN_BOOT
+#define GPIO_INTR_INPUT_BOOT GPIO_NUM_0
+#define GPIO_INTR_INPUT_PIN_SEL (1ULL << GPIO_INTR_INPUT_BOOT)
 #define GPIO_INTR_FLAG_DEFAULT 0
 
 static const char *TAG = "ch03_gpio";
@@ -123,18 +123,18 @@ static void gpio_intr_init()
     gpio_config_t config;
     config.intr_type = GPIO_INTR_NEGEDGE;
     config.mode = GPIO_MODE_INPUT;
-    config.pin_bit_mask = GPIO_INTR_PIN_SEL;
-    config.pull_up_en = 1;
+    config.pin_bit_mask = GPIO_INTR_INPUT_PIN_SEL;
+    config.pull_up_en = GPIO_PULLUP_ENABLE;
 
     gpio_config(&config);
-    gpio_set_intr_type(GPIO_INTR_BTN_BOOT, GPIO_INTR_POSEDGE);
+    gpio_set_intr_type(GPIO_INTR_INPUT_BOOT, GPIO_INTR_POSEDGE);
 
     gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
 
     xTaskCreate(gpio_intr_task, "gpio_intr_task", 2048, NULL, 10, NULL);
 
     gpio_install_isr_service(GPIO_INTR_FLAG_DEFAULT);
-    gpio_isr_handler_add(GPIO_INTR_BTN_BOOT, gpio_isr_handler, (void *)GPIO_INTR_BTN_BOOT);
+    gpio_isr_handler_add(GPIO_INTR_INPUT_BOOT, gpio_isr_handler, (void *)GPIO_INTR_INPUT_BOOT);
 }
 
 void app_main(void)
