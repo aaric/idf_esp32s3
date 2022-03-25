@@ -28,7 +28,9 @@
         "system_error": "c",
         "bitset": "c",
         "set": "c",
-        "complex": "c"
+        "complex": "c",
+        "task.h": "c",
+        "esp_timer.h": "c"
     },
     "idf.portWin": "COM5"
 }
